@@ -162,32 +162,48 @@ function App() {
     }
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const form = e.currentTarget;
-  const formData = new FormData(form);
-  formData.append('_subject', 'Отклик на вакансию');
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  try {
-    const response = await fetch('https://formspree.io/f/mjgaajzz', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+    const name = String(formData.get('name') || '').trim();
+    const portfolio = String(formData.get('portfolio') || '').trim();
 
-    if (response.ok) {
-      alert('Отклик отправлен');
-      form.reset();
-    } else {
-      alert('Не удалось отправить форму. Попробуйте позже.');
+    if (!name) {
+      alert('Пожалуйста, укажите имя');
+      return;
     }
-  } catch (error) {
-    alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
-  }
-};
+
+    if (!portfolio) {
+      alert('Пожалуйста, добавьте ссылку на портфолио');
+      return;
+    }
+
+    formData.set('name', name);
+    formData.set('portfolio', portfolio);
+    formData.append('_subject', 'Отклик на вакансию');
+
+    try {
+      const response = await fetch('https://formspree.io/f/mjgaajzz', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Отклик отправлен');
+        form.reset();
+      } else {
+        alert('Не удалось отправить форму. Попробуйте позже.');
+      }
+    } catch (error) {
+      alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
@@ -428,6 +444,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   type="text"
                   id="name"
                   name="name"
+                  required
                   placeholder="Как вас зовут"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                 />
@@ -458,6 +475,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   type="url"
                   id="portfolio"
                   name="portfolio"
+                  required
                   placeholder="https://..."
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                 />
@@ -504,10 +522,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <p className="text-[13px] text-slate-500 text-center">
               Или напишите напрямую:{' '}
               <a 
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=igor.hackevich@gmail.com"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="text-[#4F46E5] hover:underline"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=igor.hackevich@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer" 
+                className="text-[#4F46E5] hover:underline"
               >
                 igor.hackevich@gmail.com
               </a>
