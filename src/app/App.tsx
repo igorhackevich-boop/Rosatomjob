@@ -162,23 +162,31 @@ function App() {
     }
   };
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
-  const formData = new FormData(e.currentTarget);
-  const name = formData.get('name') || '';
-  const contact = formData.get('contact') || '';
-  const portfolio = formData.get('portfolio') || '';
-  const resume = formData.get('resume') || '';
-  const about = formData.get('about') || '';
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+  formData.append('_subject', 'Отклик на вакансию');
 
-  const subject = encodeURIComponent('Отклик на вакансию');
-  const body = encodeURIComponent(
-    `Имя: ${name}\n\nКонтакт: ${contact}\n\nПортфолио: ${portfolio}\n\nРезюме: ${resume}\n\nО себе:\n${about}`
-  );
+  try {
+    const response = await fetch('https://formspree.io/f/mjgaajzz', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+      },
+    });
 
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=igor.hackevich@gmail.com&su=${subject}&body=${body}`;
-  window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    if (response.ok) {
+      alert('Отклик отправлен');
+      form.reset();
+    } else {
+      alert('Не удалось отправить форму. Попробуйте позже.');
+    }
+  } catch (error) {
+    alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
+  }
 };
 
   return (
