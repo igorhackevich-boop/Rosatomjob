@@ -162,22 +162,24 @@ function App() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name');
-    const contact = formData.get('contact');
-    const portfolio = formData.get('portfolio');
-    const resume = formData.get('resume');
-    const about = formData.get('about');
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    const subject = encodeURIComponent('Отклик на вакансию');
-    const body = encodeURIComponent(
-      `Имя: ${name}\n\nКонтакт: ${contact}\n\nПортфолио: ${portfolio}\n\nРезюме: ${resume}\n\nО себе:\n${about}`
-    );
+  const formData = new FormData(e.currentTarget);
+  const name = formData.get('name') || '';
+  const contact = formData.get('contact') || '';
+  const portfolio = formData.get('portfolio') || '';
+  const resume = formData.get('resume') || '';
+  const about = formData.get('about') || '';
 
-    window.location.href = `mailto:igor.hackevich@gmail.com?subject=${subject}&body=${body}`;
-  };
+  const subject = encodeURIComponent('Отклик на вакансию');
+  const body = encodeURIComponent(
+    `Имя: ${name}\n\nКонтакт: ${contact}\n\nПортфолио: ${portfolio}\n\nРезюме: ${resume}\n\nО себе:\n${about}`
+  );
+
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=igor.hackevich@gmail.com&su=${subject}&body=${body}`;
+  window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+};
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-['Inter']">
@@ -494,8 +496,10 @@ function App() {
             <p className="text-[13px] text-slate-500 text-center">
               Или напишите напрямую:{' '}
               <a 
-                href="mailto:igor.hackevich@gmail.com" 
-                className="text-[#4F46E5] hover:underline"
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=igor.hackevich@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-[#4F46E5] hover:underline"
               >
                 igor.hackevich@gmail.com
               </a>
