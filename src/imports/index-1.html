@@ -1,0 +1,143 @@
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Вакансии — Техническая академия Росатома</title>
+      <script type="module" crossorigin src="./assets/index-s59om0Yj.js"></script>
+      <link rel="stylesheet" crossorigin href="./assets/index-Coq4vXBm.css">
+      <style>
+        #thanks-banner {
+          display: none;
+          position: fixed;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #1e293b;
+          color: #fff;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-family: Inter, sans-serif;
+          font-size: 15px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+          z-index: 999;
+          white-space: nowrap;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="root"></div>
+      <div id="thanks-banner">✓ Отклик отправлен — мы свяжемся с вами</div>
+
+      <script>
+        // Show thank-you banner if redirected back after form submit
+        if (location.search.includes('thanks=1')) {
+          var b = document.getElementById('thanks-banner');
+          b.style.display = 'block';
+          history.replaceState({}, '', location.pathname);
+          setTimeout(function(){ b.style.display = 'none'; }, 5000);
+        }
+      </script>
+    
+      <script>
+        (function() {
+          function patchBonusSections() {
+            const headings = Array.from(document.querySelectorAll('h4')).filter(el => el.textContent && el.textContent.trim() === 'Будет плюсом');
+            headings.forEach((heading) => {
+              const next = heading.nextElementSibling;
+              if (!next) return;
+              const chips = Array.from(next.querySelectorAll('span')).map(el => el.textContent && el.textContent.trim()).filter(Boolean);
+              if (chips.length >= 2) {
+                const p = document.createElement('p');
+                p.className = 'text-sm sm:text-base text-slate-600 leading-relaxed';
+                const first = chips.slice(0, 2).join(' / ');
+                const second = chips.slice(2).join(' / ');
+                p.innerHTML = second ? first + '<br>' + second : first;
+                next.replaceWith(p);
+              }
+            });
+          }
+
+          function patchFooter() {
+            const title = Array.from(document.querySelectorAll('h3')).find(el => el.textContent && el.textContent.trim() === 'О нашей работе');
+            if (!title) return;
+            const root = title.closest('.relative') || title.parentElement;
+            if (!root) return;
+
+            const metroLine = Array.from(root.querySelectorAll('div')).find(el => el.textContent && el.textContent.trim().startsWith('Рядом метро:'));
+            if (metroLine) {
+              metroLine.textContent = 'Метро: Пионерская, Чёрная речка, Старая Деревня';
+              metroLine.style.fontSize = '0.95rem';
+              metroLine.style.lineHeight = '1.5';
+            }
+            const addressLine = Array.from(root.querySelectorAll('div')).find(el => el.textContent && el.textContent.trim() === 'Аэродромная ул., 4, лит. А');
+            if (addressLine) {
+              addressLine.style.fontSize = '1rem';
+              addressLine.style.lineHeight = '1.5';
+            }
+            const siteLink = Array.from(root.querySelectorAll('a')).find(el => el.textContent && el.textContent.trim() === 'rosatomtech.ru');
+            if (siteLink) {
+              siteLink.style.color = 'rgb(203 213 225)';
+              siteLink.style.fontSize = '1rem';
+              siteLink.style.textUnderlineOffset = '4px';
+            }
+            const secondary = Array.from(root.querySelectorAll('div')).filter(el => {
+              const txt = (el.textContent || '').trim();
+              return [
+                'Белая зарплата, полный соцпакет',
+                'Офис или гибридный график работы',
+                'Аэродромная ул., 4, лит. А',
+                'Метро: Пионерская, Чёрная речка, Старая Деревня'
+              ].includes(txt);
+            });
+            secondary.forEach(el => {
+              el.style.lineHeight = '1.5';
+            });
+          }
+
+          function equalizeCards() {
+            const buttons = Array.from(document.querySelectorAll('button')).filter(btn => {
+              const t = (btn.textContent || '').trim();
+              return t.includes('Подробнее о вакансии') || t.includes('Свернуть детали');
+            });
+            const cards = buttons.map(btn => btn.closest('.group.relative.bg-white')).filter(Boolean).slice(0, 2);
+            if (cards.length < 2) return;
+
+            cards.forEach(card => {
+              card.style.height = '';
+              card.style.minHeight = '';
+            });
+
+            if (window.innerWidth < 640) return;
+
+            const anyExpanded = buttons.some(btn => (btn.textContent || '').includes('Свернуть детали'));
+            if (anyExpanded) return;
+
+            // lock equal closed-state height
+            const heights = cards.map(card => card.getBoundingClientRect().height);
+            const max = Math.max.apply(null, heights);
+            cards.forEach(card => {
+              card.style.height = max + 'px';
+            });
+          }
+
+          let raf = null;
+          function runPatches() {
+            if (raf) cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+              patchBonusSections();
+              patchFooter();
+              equalizeCards();
+            });
+          }
+
+          document.addEventListener('DOMContentLoaded', runPatches);
+          window.addEventListener('load', runPatches);
+          window.addEventListener('resize', runPatches);
+          const mo = new MutationObserver(runPatches);
+          mo.observe(document.documentElement, { childList: true, subtree: true });
+        })();
+      </script>
+
+    </body>
+  </html>

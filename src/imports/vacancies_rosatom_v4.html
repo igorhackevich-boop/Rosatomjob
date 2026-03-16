@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вакансии — Техническая академия Росатома</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geologica:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --blue: #1A3A5C;
+    --blue-mid: #2A5A8C;
+    --light: #F6F3EE;
+    --paper: #FDFBF8;
+    --muted: #8A8A8A;
+    --border: #DDD8CF;
+    --white: #FFFFFF;
+    --ink: #1C2B3A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Geologica', sans-serif;
+    background: #D0CCC4;
+    color: var(--ink);
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--paper);
+    margin: 28px auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen {
+    .page { box-shadow: 0 4px 48px rgba(0,0,0,0.22); }
+    body { padding: 28px 0 56px; }
+  }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { margin: 0; page-break-after: always; box-shadow: none; }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  .hd {
+    background: var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    align-items: stretch;
+    min-height: 190px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hd-left {
+    padding: 30px 36px 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hd-org {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #3A6A9A;
+    text-transform: uppercase;
+  }
+
+  .hd-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 58px;
+    line-height: 0.90;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    margin-top: 10px;
+  }
+
+  .hd-tags {
+    display: flex;
+    gap: 14px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: #4A7AAA;
+    text-transform: uppercase;
+    border: 1px solid #1E3E5E;
+    padding: 4px 10px;
+  }
+
+  /* Illustration bleeds fully into and beyond the right side */
+  .hd-illus {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    bottom: -10px;
+    width: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* fade left edge of illustration into header bg */
+  .hd-illus::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 80px;
+    background: linear-gradient(to right, var(--navy), transparent);
+    z-index: 3;
+  }
+
+  .hd-illus svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* ── BODY ────────────────────────────────────────────────── */
+  .body {
+    padding: 30px 40px 36px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about p {
+    font-size: 12px;
+    line-height: 1.85;
+    color: #2A3A4A;
+  }
+
+  .about p + p { margin-top: 9px; }
+
+  /* ── SECTION LABEL ── */
+  .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.26em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 11px;
+  }
+
+  /* ── TWO COLS ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 40px;
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── LIST ── */
+  ul.lst { list-style: none; }
+
+  ul.lst li {
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    padding: 5.5px 0 5.5px 18px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.042);
+  }
+
+  ul.lst li:last-child { border-bottom: none; }
+
+  ul.lst li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--blue-mid);
+    font-weight: 700;
+  }
+
+  ul.lst.dim li {
+    color: var(--muted);
+    font-size: 10.5px;
+  }
+
+  ul.lst.dim li::before {
+    content: '·';
+    font-size: 20px;
+    top: 2px;
+    color: var(--border);
+  }
+
+  /* ── PERKS ROW ── */
+  .perks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px 24px;
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .perk-item {}
+
+  .perk-icon {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: var(--blue-mid);
+    line-height: 1;
+  }
+
+  .perk-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .perk-body {
+    font-size: 10px;
+    line-height: 1.6;
+    color: #4A5A6A;
+  }
+
+  /* ── OFFER ── */
+  .offer {
+    background: var(--navy);
+    padding: 22px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px 28px;
+    margin-top: auto;
+  }
+
+  .off-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: #3A6080;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .off-val {
+    font-size: 11.5px;
+    color: #C8D8E8;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  .off-val.big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .off-subval {
+    font-size: 8.5px;
+    color: #3A6080;
+    margin-top: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .bot-line {
+    height: 3px;
+    background: var(--blue-mid);
+  }
+
+  .gap-sm { margin-bottom: 18px; }
+</style>
+</head>
+<body>
+
+<!-- ══ VACANCY 1 ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-org">Техническая академия Росатома · Открытая вакансия</div>
+      <div class="hd-title">3D-моушен<br>дизайнер<br>обучающих курсов</div>
+      <div class="hd-tags">
+        <span class="tag">Полная занятость</span>
+        <span class="tag">Офис / гибрид</span>
+        <span class="tag">Атомная отрасль</span>
+      </div>
+    </div>
+
+    <!-- LARGE BLEED ILLUSTRATION: detailed centrifugal pump cutaway -->
+    <div class="hd-illus">
+      <svg viewBox="0 0 290 230" width="290" height="230" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer volute casing -->
+        <ellipse cx="155" cy="120" rx="88" ry="88" fill="#071828" stroke="#1A3A58" stroke-width="2"/>
+        <ellipse cx="155" cy="120" rx="88" ry="88" fill="none" stroke="#0F2A40" stroke-width="8"/>
+
+        <!-- Volute spiral channel -->
+        <path d="M155,120 m0,-70 a70,70 0 1,1 -48,116" fill="none" stroke="#122030" stroke-width="10"/>
+        <path d="M155,120 m0,-60 a60,60 0 1,1 -40,100" fill="none" stroke="#0D1E2E" stroke-width="6"/>
+
+        <!-- Casing detail ribs -->
+        <ellipse cx="155" cy="120" rx="75" ry="75" fill="none" stroke="#132838" stroke-width="1" stroke-dasharray="4,3"/>
+        <ellipse cx="155" cy="120" rx="65" ry="65" fill="none" stroke="#0F2232" stroke-width="1" opacity="0.6"/>
+
+        <!-- Impeller blades — 8 curved blades -->
+        <g stroke="#1E5A96" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M155,120 Q178,92 188,68"/>
+          <path d="M155,120 Q183,110 200,96"/>
+          <path d="M155,120 Q183,133 196,152"/>
+          <path d="M155,120 Q168,148 162,174"/>
+          <path d="M155,120 Q138,150 128,172"/>
+          <path d="M155,120 Q125,138 108,152"/>
+          <path d="M155,120 Q122,113 104,106"/>
+          <path d="M155,120 Q126,93 114,72"/>
+        </g>
+
+        <!-- Impeller blade highlights -->
+        <g stroke="#2A72B8" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5">
+          <path d="M155,120 Q177,94 185,72"/>
+          <path d="M155,120 Q182,112 198,99"/>
+          <path d="M155,120 Q182,135 194,155"/>
+          <path d="M155,120 Q167,149 160,177"/>
+        </g>
+
+        <!-- Shroud disc (back plate) -->
+        <circle cx="155" cy="120" r="42" fill="#071420" stroke="#1A3A5A" stroke-width="1.5"/>
+        <circle cx="155" cy="120" r="38" fill="none" stroke="#122030" stroke-width="1" stroke-dasharray="2,3"/>
+
+        <!-- Hub ring -->
+        <circle cx="155" cy="120" r="18" fill="#071828" stroke="#1E4A7A" stroke-width="2"/>
+        <circle cx="155" cy="120" r="12" fill="#0A1E34" stroke="#2A5A8C" stroke-width="1.5"/>
+        <circle cx="155" cy="120" r="6"  fill="#1A3A5C" stroke="#3A7ACC" stroke-width="1"/>
+
+        <!-- Shaft -->
+        <rect x="150" y="196" width="10" height="44" rx="2" fill="#0A1E34" stroke="#1A3A5A" stroke-width="1.5"/>
+        <rect x="148" y="206" width="14" height="8" rx="1" fill="#071420" stroke="#1A3A5A" stroke-width="1"/>
+
+        <!-- Bearing housing bottom -->
+        <rect x="138" y="228" width="34" height="12" rx="3" fill="#071420" stroke="#152A3E" stroke-width="1.5"/>
+        <rect x="142" y="231" width="26" height="6" rx="1" fill="#0A1E30" stroke="#1A3A5A" stroke-width="1"/>
+
+        <!-- Inlet pipe top-left -->
+        <rect x="112" y="-10" width="28" height="46" rx="2" fill="#071828" stroke="#1A3A58" stroke-width="2"/>
+        <!-- Inlet flange -->
+        <rect x="106" y="28" width="40" height="9" rx="1" fill="#071420" stroke="#1E4A74" stroke-width="1.5"/>
+        <!-- Flow arrows inside inlet -->
+        <line x1="120" y1="5"  x2="120" y2="22" stroke="#1A4A7A" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="126" y1="5"  x2="126" y2="22" stroke="#1A4A7A" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="132" y1="5"  x2="132" y2="22" stroke="#1A4A7A" stroke-width="1" stroke-dasharray="3,2"/>
+        <polygon points="120,24 117,18 123,18" fill="#1A4A7A"/>
+        <polygon points="126,24 123,18 129,18" fill="#1A4A7A"/>
+        <polygon points="132,24 129,18 135,18" fill="#1A4A7A"/>
+
+        <!-- Outlet pipe right, going off edge -->
+        <rect x="228" y="110" width="72" height="24" rx="2" fill="#071828" stroke="#1A3A58" stroke-width="2"/>
+        <rect x="228" y="108" width="72" height="4" rx="1" fill="#0D2238" stroke="#1E4A74" stroke-width="1"/>
+        <rect x="228" y="132" width="72" height="4" rx="1" fill="#0D2238" stroke="#1E4A74" stroke-width="1"/>
+        <!-- Flow arrows outlet -->
+        <line x1="238" y1="118" x2="258" y2="118" stroke="#2A6AAA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="238" y1="122" x2="258" y2="122" stroke="#2A6AAA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="238" y1="126" x2="258" y2="126" stroke="#2A6AAA" stroke-width="1" stroke-dasharray="3,2"/>
+        <polygon points="260,118 254,115 254,121" fill="#2A6AAA"/>
+        <polygon points="260,122 254,119 254,125" fill="#2A6AAA"/>
+        <polygon points="260,126 254,123 254,129" fill="#2A6AAA"/>
+
+        <!-- Rotation arc -->
+        <path d="M155,78 A42,42 0 0,1 197,120" fill="none" stroke="#2A6AAA" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <polygon points="197,120 200,113 193,115" fill="#2A6AAA"/>
+
+        <!-- Dimension lines -->
+        <line x1="72" y1="80"  x2="72" y2="162" stroke="#0F2A40" stroke-width="0.75"/>
+        <line x1="70" y1="80"  x2="74" y2="80"  stroke="#0F2A40" stroke-width="0.75"/>
+        <line x1="70" y1="162" x2="74" y2="162" stroke="#0F2A40" stroke-width="0.75"/>
+        <text x="67" y="124" font-size="7" fill="#1A3A5A" font-family="monospace" text-anchor="middle" writing-mode="tb" transform="rotate(-90,67,124)">∅ 176</text>
+
+        <line x1="120" y1="56" x2="192" y2="56" stroke="#0F2A40" stroke-width="0.75"/>
+        <line x1="120" y1="54" x2="120" y2="58" stroke="#0F2A40" stroke-width="0.75"/>
+        <line x1="192" y1="54" x2="192" y2="58" stroke="#0F2A40" stroke-width="0.75"/>
+        <text x="156" y="52" font-size="7" fill="#1A3A5A" font-family="monospace" text-anchor="middle">∅ 84</text>
+
+        <!-- Label callouts -->
+        <line x1="188" y1="72"  x2="218" y2="52"  stroke="#0F2A40" stroke-width="0.75"/>
+        <text x="220" y="50"  font-size="7.5" fill="#2A5A8A" font-family="monospace">IMPELLER</text>
+
+        <line x1="155" y1="102" x2="218" y2="88" stroke="#0F2A40" stroke-width="0.75"/>
+        <text x="220" y="87"  font-size="7.5" fill="#2A5A8A" font-family="monospace">HUB</text>
+
+        <line x1="126" y1="28"  x2="90"  y2="14"  stroke="#0F2A40" stroke-width="0.75"/>
+        <text x="42"  y="13"  font-size="7.5" fill="#2A5A8A" font-family="monospace">INLET</text>
+
+        <text x="232" y="106" font-size="7.5" fill="#2A5A8A" font-family="monospace">OUTLET</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="about">
+      <p>Мы разрабатываем образовательные курсы для специалистов атомной отрасли. Наша цель — передать знания и опыт прошлых лет, используя современные методы обучения и внедряя все доступные технологии. Мы подстраиваемся под потребности современного пользователя, поэтому совмещаем дизайн интерфейсов и 3D-анимацию.</p>
+      <p>Конечный продукт — три формата: <strong>интерактивный курс</strong> с 3D в заданиях, <strong>анимационные ролики</strong> для объяснения механизмов и <strong>рендеры</strong> в качестве иллюстративной анимации. Курсы работают в офлайн-среде атомных станций без интернета, через SCORM.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="lbl">Задачи</div>
+        <ul class="lst">
+          <li>Создавать 3D-модели технических объектов — насосов, реакторных систем, приборов</li>
+          <li>Анимировать сборку, разборку и принцип работы оборудования</li>
+          <li>Разрабатывать интерактивные 3D-задания для курсов</li>
+          <li>Производить анимационные ролики и иллюстративные рендеры</li>
+          <li>Строить инфографику на основе технических схем</li>
+          <li>Интегрировать 3D и HTML в SCORM-пакеты через iSpring</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="lbl">Требования</div>
+        <ul class="lst">
+          <li>Уверенное владение Blender (Cinema 4D, 3ds Max)</li>
+          <li>Опыт анимации механизмов и технических объектов</li>
+          <li>Постобработка видео: Premiere Pro, After Effects</li>
+          <li>Понимание инфографики и визуального объяснения</li>
+          <li>Готовность разбираться в том, что анимируешь</li>
+        </ul>
+        <div class="lbl" style="margin-top:16px">Будет плюсом</div>
+        <ul class="lst dim">
+          <li>Интерактивный 3D: WebGL, Three.js</li>
+          <li>Опыт с iSpring или Articulate</li>
+          <li>Промышленная визуализация</li>
+          <li>Техническое иллюстрирование</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PERKS -->
+    <div class="perks">
+      <div class="perk-item">
+        <div class="perk-icon">◎</div>
+        <div class="perk-title">Обучение за счёт компании</div>
+        <div class="perk-body">Профессиональные курсы, инструменты и конференции — мы инвестируем в рост каждого специалиста</div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-icon">◈</div>
+        <div class="perk-title">Работа с экспертами отрасли</div>
+        <div class="perk-body">Вы будете напрямую взаимодействовать с инженерами и технологами Росатома при разработке каждого курса</div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-icon">◉</div>
+        <div class="perk-title">Наставник-дизайнер</div>
+        <div class="perk-body">С первого дня рядом опытный дизайнер: поможет разобраться в процессах и стандартах академии</div>
+      </div>
+    </div>
+
+    <div class="offer">
+      <div>
+        <div class="off-key">Белая зп · до вычета</div>
+        <div class="off-val big">__ ___ ₽</div>
+        <div class="off-subval">официальное трудоустройство</div>
+      </div>
+      <div>
+        <div class="off-key">Формат</div>
+        <div class="off-val">Офис / гибрид<br>Полная занятость</div>
+      </div>
+      <div>
+        <div class="off-key">Проекты</div>
+        <div class="off-val">Уникальные курсы для атомной отрасли — реально сложные темы</div>
+      </div>
+    </div>
+  </div>
+  <div class="bot-line"></div>
+</div>
+
+
+<!-- ══ VACANCY 2 ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-org">Техническая академия Росатома · Открытая вакансия</div>
+      <div class="hd-title">Дизайнер<br>образовательных<br>курсов</div>
+      <div class="hd-tags">
+        <span class="tag">Полная занятость</span>
+        <span class="tag">Офис / гибрид</span>
+        <span class="tag">Атомная отрасль</span>
+      </div>
+    </div>
+
+    <!-- LARGE BLEED ILLUSTRATION: detailed slide stack with content -->
+    <div class="hd-illus">
+      <svg viewBox="0 0 290 220" width="290" height="220" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- ── SLIDE 3 (back) ── -->
+        <g transform="translate(38,8) rotate(-6,130,100)">
+          <rect x="30" y="18" width="200" height="136" rx="4" fill="#051018" stroke="#0F2030" stroke-width="1.5"/>
+          <rect x="38" y="28" width="120" height="8"  rx="2" fill="#0D2030" opacity="0.8"/>
+          <rect x="38" y="40" width="80"  height="5"  rx="1" fill="#0A1828" opacity="0.6"/>
+          <rect x="38" y="50" width="90"  height="5"  rx="1" fill="#0A1828" opacity="0.5"/>
+          <rect x="38" y="60" width="70"  height="5"  rx="1" fill="#0A1828" opacity="0.5"/>
+        </g>
+
+        <!-- ── SLIDE 2 (mid) ── -->
+        <g transform="translate(20,4) rotate(-3,130,100)">
+          <rect x="30" y="18" width="200" height="136" rx="4" fill="#071420" stroke="#142838" stroke-width="1.5"/>
+          <!-- Title -->
+          <rect x="38" y="28" width="130" height="9"  rx="2" fill="#1A3A5A" opacity="0.9"/>
+          <!-- Subtitle -->
+          <rect x="38" y="42" width="85"  height="5"  rx="1" fill="#0F2030" opacity="0.7"/>
+          <!-- Image placeholder right -->
+          <rect x="148" y="52" width="68"  height="68" rx="2" fill="#051018" stroke="#0F2030" stroke-width="1"/>
+          <!-- Donut chart inside placeholder -->
+          <circle cx="182" cy="86" r="22" fill="none" stroke="#122030" stroke-width="12"/>
+          <circle cx="182" cy="86" r="22" fill="none" stroke="#1A4A7A" stroke-width="12" stroke-dasharray="42 97" stroke-dashoffset="0"/>
+          <circle cx="182" cy="86" r="22" fill="none" stroke="#2A6AAA" stroke-width="12" stroke-dasharray="28 111" stroke-dashoffset="-42"/>
+          <!-- Text lines left -->
+          <rect x="38" y="52" width="96" height="4" rx="1" fill="#0F2030" opacity="0.6"/>
+          <rect x="38" y="60" width="88" height="4" rx="1" fill="#0F2030" opacity="0.6"/>
+          <rect x="38" y="68" width="92" height="4" rx="1" fill="#0F2030" opacity="0.5"/>
+          <rect x="38" y="76" width="80" height="4" rx="1" fill="#0F2030" opacity="0.5"/>
+          <!-- Bullet list -->
+          <circle cx="42"  cy="90" r="2.5" fill="#1A4A7A"/>
+          <rect x="48" y="88" width="78" height="4" rx="1" fill="#0F2030" opacity="0.5"/>
+          <circle cx="42"  cy="99" r="2.5" fill="#2A5A8C"/>
+          <rect x="48" y="97" width="66" height="4" rx="1" fill="#0F2030" opacity="0.5"/>
+          <circle cx="42"  cy="108" r="2.5" fill="#1A3A5C"/>
+          <rect x="48" y="106" width="72" height="4" rx="1" fill="#0F2030" opacity="0.5"/>
+          <!-- Footer -->
+          <line x1="38" y1="134" x2="218" y2="134" stroke="#0F2030" stroke-width="0.75"/>
+          <rect x="38" y="138" width="28" height="3" rx="1" fill="#0D1E2E" opacity="0.5"/>
+          <rect x="190" y="138" width="20" height="3" rx="1" fill="#0D1E2E" opacity="0.5"/>
+        </g>
+
+        <!-- ── SLIDE 1 (front, main) ── -->
+        <g transform="translate(0,0)">
+          <rect x="30" y="18" width="210" height="144" rx="4" fill="#0D2238" stroke="#1E4A74" stroke-width="2"/>
+
+          <!-- Title bar with color -->
+          <rect x="30" y="18" width="210" height="28" rx="4" fill="#1A3A5C"/>
+          <rect x="30" y="32" width="210" height="14" fill="#1A3A5C"/>
+          <rect x="40" y="26" width="140" height="10" rx="2" fill="#2A5A8C" opacity="0.8"/>
+          <rect x="40" y="26" width="90"  height="10" rx="2" fill="#3A7ACC" opacity="0.6"/>
+
+          <!-- Two column content -->
+          <!-- Left col: text content -->
+          <rect x="40" y="54" width="88" height="5" rx="1" fill="#1A3A5A" opacity="0.7"/>
+          <rect x="40" y="63" width="78" height="5" rx="1" fill="#1A3A5A" opacity="0.6"/>
+          <rect x="40" y="72" width="84" height="5" rx="1" fill="#1A3A5A" opacity="0.6"/>
+
+          <!-- Bullets left -->
+          <rect x="40" y="84" width="6" height="6" rx="1" fill="#1A4A7A"/>
+          <rect x="50" y="85" width="72" height="4" rx="1" fill="#1A3A5A" opacity="0.55"/>
+          <rect x="40" y="95" width="6" height="6" rx="1" fill="#2A5A8C"/>
+          <rect x="50" y="96" width="64" height="4" rx="1" fill="#1A3A5A" opacity="0.55"/>
+          <rect x="40" y="106" width="6" height="6" rx="1" fill="#1A3A5C"/>
+          <rect x="50" y="107" width="70" height="4" rx="1" fill="#1A3A5A" opacity="0.55"/>
+          <rect x="40" y="117" width="6" height="6" rx="1" fill="#1A4A7A" opacity="0.7"/>
+          <rect x="50" y="118" width="58" height="4" rx="1" fill="#1A3A5A" opacity="0.5"/>
+
+          <!-- Divider -->
+          <line x1="146" y1="50" x2="146" y2="148" stroke="#152A3E" stroke-width="1"/>
+
+          <!-- Right col: bar chart -->
+          <rect x="152" y="50" width="76" height="92" rx="2" fill="#071828" stroke="#0F2030" stroke-width="1"/>
+
+          <!-- Bars (3 groups) -->
+          <rect x="160" y="100" width="12" height="30" rx="1" fill="#1A3A5A" opacity="0.8"/>
+          <rect x="160" y="88"  width="12" height="42" rx="1" fill="#2A5A8C" opacity="0.85"/>
+          <rect x="160" y="76"  width="12" height="54" rx="1" fill="#3A7ACC" opacity="0.9"/>
+
+          <rect x="178" y="108" width="12" height="22" rx="1" fill="#1A3A5A" opacity="0.8"/>
+          <rect x="178" y="92"  width="12" height="38" rx="1" fill="#2A5A8C" opacity="0.85"/>
+          <rect x="178" y="80"  width="12" height="50" rx="1" fill="#3A7ACC" opacity="0.9"/>
+
+          <rect x="196" y="96"  width="12" height="34" rx="1" fill="#1A3A5A" opacity="0.8"/>
+          <rect x="196" y="78"  width="12" height="52" rx="1" fill="#2A5A8C" opacity="0.85"/>
+          <rect x="196" y="64"  width="12" height="66" rx="1" fill="#3A7ACC" opacity="0.9"/>
+
+          <!-- Chart baseline -->
+          <line x1="156" y1="132" x2="212" y2="132" stroke="#152A3E" stroke-width="1"/>
+
+          <!-- Annotation line -->
+          <line x1="202" y1="64" x2="220" y2="52" stroke="#1A4A74" stroke-width="0.75" stroke-dasharray="2,2"/>
+          <circle cx="221" cy="51" r="2" fill="none" stroke="#2A5A8A" stroke-width="0.75"/>
+
+          <!-- Slide footer -->
+          <line x1="40" y1="150" x2="228" y2="150" stroke="#152A3E" stroke-width="0.75"/>
+          <rect x="40"  y="153" width="28" height="3" rx="1" fill="#122030" opacity="0.6"/>
+          <rect x="200" y="153" width="20" height="3" rx="1" fill="#122030" opacity="0.6"/>
+
+          <!-- Slide number badge -->
+          <rect x="218" y="156" width="16" height="10" rx="2" fill="#1A3A5C" opacity="0.9"/>
+          <text x="226" y="164" font-size="6" fill="#4A7AAA" text-anchor="middle" font-family="monospace">01</text>
+        </g>
+
+        <!-- Floating iSpring badge -->
+        <rect x="246" y="110" width="38" height="22" rx="3" fill="#0A1E34" stroke="#1E4A74" stroke-width="1"/>
+        <text x="265" y="120" font-size="6.5" fill="#3A7ACC" text-anchor="middle" font-family="monospace" font-weight="bold">iSpring</text>
+        <text x="265" y="128" font-size="5.5" fill="#2A5A8A" text-anchor="middle" font-family="monospace">SCORM</text>
+
+        <!-- Floating tool badge -->
+        <rect x="248" y="82" width="34" height="22" rx="3" fill="#0A1E34" stroke="#1A3A5A" stroke-width="1"/>
+        <text x="265" y="92" font-size="6.5" fill="#2A6AAA" text-anchor="middle" font-family="monospace">PPT</text>
+        <text x="265" y="100" font-size="5.5" fill="#1A4A7A" text-anchor="middle" font-family="monospace">animate</text>
+
+        <!-- Cursor icon -->
+        <polygon points="62,170 68,186 71,180 78,183 72,168" fill="#2A5A8C" stroke="#1A3A5A" stroke-width="1" transform="translate(168,20)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="about">
+      <p>Мы разрабатываем образовательные курсы для специалистов атомной отрасли. Наша цель — передать знания и опыт прошлых лет, используя современные методы обучения. Мы подстраиваемся под потребности современного пользователя: совмещаем дизайн интерфейсов, методику и 3D-анимацию.</p>
+      <p>Вы самостоятельно ведёте курс от методической концепции до готового SCORM-пакета. Курсы работают офлайн на атомных станциях через iSpring. Здесь важна не только визуальная грамотность, но и <strong>методическое мышление</strong> — умение выстроить логику обучения так, чтобы сложное стало по-настоящему понятным.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="lbl">Задачи</div>
+        <ul class="lst">
+          <li>Разрабатывать визуальную концепцию и методический сценарий курса</li>
+          <li>Структурировать и визуализировать сложную техническую информацию</li>
+          <li>Создавать иллюстрации, иконки, инфографику</li>
+          <li>Анимировать элементы внутри PowerPoint</li>
+          <li>Формировать озвучку с помощью ИИ-инструментов</li>
+          <li>Собирать курс в PowerPoint + iSpring: интерактив, тесты, SCORM</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="lbl">Требования</div>
+        <ul class="lst">
+          <li>PowerPoint: продвинутый уровень + анимация</li>
+          <li>Иллюстрации и иконки: Illustrator, Figma или аналоги</li>
+          <li>Инфографика и визуализация данных</li>
+          <li>ИИ-инструменты для генерации и обработки озвучки</li>
+          <li>Базовое знание Premiere Pro и нейросетей в дизайне</li>
+          <li>iSpring Suite — желательно, обучим</li>
+        </ul>
+        <div class="lbl" style="margin-top:16px">Будет плюсом</div>
+        <ul class="lst dim">
+          <li>Педагогический дизайн</li>
+          <li>Articulate Storyline, Lectora</li>
+          <li>Опыт работы со SCORM</li>
+          <li>Интерес к техническим темам</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PERKS -->
+    <div class="perks">
+      <div class="perk-item">
+        <div class="perk-icon">◎</div>
+        <div class="perk-title">Обучение за счёт компании</div>
+        <div class="perk-body">Профессиональные курсы и инструменты — мы инвестируем в рост специалиста в процессе работы</div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-icon">◈</div>
+        <div class="perk-title">Работа с экспертами отрасли</div>
+        <div class="perk-body">Вы напрямую работаете с инженерами и технологами Росатома — носителями уникальных знаний</div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-icon">◉</div>
+        <div class="perk-title">Наставник-дизайнер</div>
+        <div class="perk-body">С первого дня рядом опытный дизайнер: поможет войти в процессы и стандарты академии</div>
+      </div>
+    </div>
+
+    <div class="offer">
+      <div>
+        <div class="off-key">Белая зп · до вычета</div>
+        <div class="off-val big">__ ___ ₽</div>
+        <div class="off-subval">официальное трудоустройство</div>
+      </div>
+      <div>
+        <div class="off-key">Формат</div>
+        <div class="off-val">Офис / гибрид<br>Полная занятость</div>
+      </div>
+      <div>
+        <div class="off-key">Автономия</div>
+        <div class="off-val">Высокая степень самостоятельности в принятии решений</div>
+      </div>
+    </div>
+  </div>
+  <div class="bot-line"></div>
+</div>
+
+</body>
+</html>

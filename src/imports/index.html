@@ -1,0 +1,42 @@
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Вакансии — Техническая академия Росатома</title>
+      <script type="module" crossorigin src="./assets/index-s59om0Yj.js"></script>
+      <link rel="stylesheet" crossorigin href="./assets/index-Coq4vXBm.css">
+      <style>
+        #thanks-banner {
+          display: none;
+          position: fixed;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #1e293b;
+          color: #fff;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-family: Inter, sans-serif;
+          font-size: 15px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+          z-index: 999;
+          white-space: nowrap;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="root"></div>
+      <div id="thanks-banner">✓ Отклик отправлен — мы свяжемся с вами</div>
+
+      <script>
+        // Show thank-you banner if redirected back after form submit
+        if (location.search.includes('thanks=1')) {
+          var b = document.getElementById('thanks-banner');
+          b.style.display = 'block';
+          history.replaceState({}, '', location.pathname);
+          setTimeout(function(){ b.style.display = 'none'; }, 5000);
+        }
+      </script>
+    </body>
+  </html>
