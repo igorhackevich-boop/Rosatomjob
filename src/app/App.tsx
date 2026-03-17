@@ -618,7 +618,7 @@ function App() {
                     className="text-[13px] sm:text-[14px] text-slate-300 hover:text-white transition-colors underline decoration-slate-500 hover:decoration-slate-300"
                     style={{ textUnderlineOffset: '4px' }}
                   >
-                    rosatomtech.ru
+                    yandex.ru
                   </a>
                 </div>
               </div>
