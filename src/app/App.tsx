@@ -217,7 +217,7 @@ function App() {
               </div>
               <div className="min-w-0">
                 <h1 className="font-bold text-[15px] text-slate-900 truncate">
-                  Техническая академия Росатома
+                  Техническая академия
                 </h1>
                 <p className="text-[13px] text-slate-500">Филиал СПБ · Открытые вакансии</p>
               </div>
@@ -612,7 +612,7 @@ function App() {
                     Подробнее о проектах
                   </div>
                   <a 
-                    href="https://rosatomtech.ru" 
+                    href="https://yandex.ru" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-[13px] sm:text-[14px] text-slate-300 hover:text-white transition-colors underline decoration-slate-500 hover:decoration-slate-300"
